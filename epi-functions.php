@@ -3,9 +3,6 @@ if (!defined('ABSPATH')) exit;
 
 // Função para mostrar questionário no front-end
 function epi_shortcode_questionario($atts){
-    if(!is_user_logged_in()){
-        return '<p>Por favor, faça login para preencher o questionário.</p>';
-    }
 
     global $wpdb;
     $table_respostas = $wpdb->prefix . 'epi_respostas';
@@ -79,4 +76,30 @@ function epi_shortcode_questionario($atts){
     <?php
     return ob_get_clean();
 }
+
+function epi_redirect_if_not_logged_in() {
+    global $post;
+    if (is_a($post, 'WP_Post') && has_shortcode($post->post_content, 'epi_questionario') && !is_user_logged_in()) {
+        $redirect_url = home_url($_SERVER['REQUEST_URI']);
+        $login_url = wp_login_url($redirect_url);
+        wp_redirect($login_url);
+        exit;
+    }
+}
+add_action('template_redirect', 'epi_redirect_if_not_logged_in');
+
+function epi_add_social_login_buttons_to_login($message) {
+    if ( empty($message) ){
+        return "<div style='margin-bottom: 20px;'>" . do_shortcode('[nextend_social_login]') . "</div>";
+    } else {
+        return $message;
+    }
+}
+add_filter( 'login_message', 'epi_add_social_login_buttons_to_login' );
+
+function epi_add_social_login_buttons_to_register() {
+    echo "<div style='margin-bottom: 20px;'>" . do_shortcode('[nextend_social_login]') . "</div>";
+}
+add_action( 'register_form', 'epi_add_social_login_buttons_to_register' );
+
 

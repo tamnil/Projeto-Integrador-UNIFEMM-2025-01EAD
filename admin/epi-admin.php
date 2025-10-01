@@ -247,3 +247,14 @@ function epi_admin_analise_grafica(){
     <?php
 }
 
+function epi_check_user_registration() {
+    if ( ! get_option( 'users_can_register' ) ) {
+        ?>
+        <div class="notice notice-warning is-dismissible">
+            <p><?php _e( 'User registration is currently disabled. Users will not be able to create new accounts.', 'epi-questionario' ); ?></p>
+        </div>
+        <?php
+    }
+}
+add_action( 'admin_notices', 'epi_check_user_registration' );
+
