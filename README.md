@@ -2,6 +2,8 @@ EPI Questionário – WordPress Plugin
 Descrição
 
 Plugin WordPress para gerenciar questionários de EPI (Equipamentos de Proteção Individual) e registrar respostas.
+Projeto para o curso de extensao das engenharias  "Pi Vida e Carreira".
+
 
 Funcionalidades Implementadas
 
